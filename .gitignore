@@ -1,2 +1,7 @@
 /.idea
 .idea
+/composer.lock
+/classes/
+*.log
+
+/vendor/

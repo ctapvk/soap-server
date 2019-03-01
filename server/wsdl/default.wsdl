@@ -1,0 +1,85 @@
+<?xml version="1.0"  encoding="UTF-8" ?>
+<definitions
+        name="esia_usl"
+        xmlns="http://schemas.xmlsoap.org/wsdl/"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+        xmlns:tns="urn:TFOMS-EsiaUsl"
+        targetNamespace="urn:TFOMS-EsiaUsl"
+>
+    <types>
+        <xs:schema
+                xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                xmlns:tns="urn:TFOMS-EsiaUsl"
+                targetNamespace="urn:TFOMS-EsiaUsl"
+                elementFormDefault="qualified"
+        >
+            <xs:complexType name="InputParams">
+                <xs:sequence>
+                    <xs:element name="fam" type="xs:string"/>
+                    <xs:element name="im" type="xs:string"/>
+                    <xs:element name="ot" type="xs:string" minOccurs="0"/>
+                    <xs:element name="dr" type="xs:string"/>
+                    <xs:element name="dmin" type="xs:string"/>
+                    <xs:element name="dmax" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+
+            <xs:complexType name="Usl">
+                <xs:sequence>
+                    <xs:element name="lpu" type="xs:string"/>
+                    <xs:element name="nmlpu" type="xs:string"/>
+                    <xs:element name="smo" type="xs:string"/>
+                    <xs:element name="nmusl" type="xs:string"/>
+                    <xs:element name="uslok" type="xs:string"/>
+                    <xs:element name="ds" type="xs:string"/>
+                    <xs:element name="dtbeg" type="xs:string"/>
+                    <xs:element name="dtend" type="xs:string"/>
+                    <xs:element name="sum" type="xs:decimal"/>
+                </xs:sequence>
+            </xs:complexType>
+
+            <xs:complexType name="UslData">
+                <xs:sequence>
+                    <xs:element name="usl" type="tns:Usl" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
+            </xs:complexType>
+
+        </xs:schema>
+    </types>
+
+
+    <message name="request_msg">
+        <part name="input_params" type="tns:InputParams"/>
+    </message>
+    <message name="response_msg">
+        <part name="usl_list" type="tns:UslData"/>
+    </message>
+
+
+    <portType name="EsiaUslType">
+        <operation name="sendSms">
+            <input message="tns:request_msg"/>
+            <output message="tns:response_msg"/>
+        </operation>
+    </portType>
+
+
+    <binding name="EsiaUslBinding" type="tns:EsiaUslType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="sendSms">
+            <soap:operation soapAction="" style="document"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+    <service name="EsiaUslService">
+        <port name="EsiaUslPort" binding="tns:EsiaUslBinding">
+            <soap:address location="http://phptest/server/"/>
+        </port>
+    </service>
+</definitions>
